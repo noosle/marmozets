@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -9,6 +10,10 @@
     <com.noosle.stories_marmozets.views.StoryView
         android:id="@+id/story_view"
         android:layout_width="match_parent"
+        app:story_background_color="@color/black"
+        app:story_progress_color="@color/white"
         android:layout_height="match_parent"/>
+    <!-- story_background_color attribute is not important. Default value is black -->
+    <!-- story_progress_color attribute is not important. Default value is white -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
