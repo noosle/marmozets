@@ -178,6 +178,7 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
         storyListener.onCurrentStory(marmozet)
         when (marmozet.type) {
             "image" -> {
+                binding.playerView.visibility = View.INVISIBLE
                 Glide.with(this)
                     .load(marmozet.url)
                     .transition(DrawableTransitionOptions.withCrossFade())
