@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Marmozets">
+        <attr name="story_background_color" format="color" />
+        <attr name="story_progress_color" format="color" />
+    </declare-styleable>
+</resources>
