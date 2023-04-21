@@ -251,14 +251,14 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
         runnable = runnable {
             progressBar.progress = progressStatus
             if (progressStatus < progressBar.max) {
-                progressStatus += 50
-                handler.postDelayed(this, 50)
+                progressStatus += 20
+                handler.postDelayed(this, 20)
             } else {
                 currentStoryPosition++
                 launch()
             }
         }.also {
-            handler.postDelayed(it, 50)
+            handler.postDelayed(it, 20)
         }
     }
 
