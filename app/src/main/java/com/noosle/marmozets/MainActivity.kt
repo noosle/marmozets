@@ -13,7 +13,6 @@ class MainActivity : FragmentActivity() {
 
         val storyView = findViewById<StoryView>(R.id.story_view)
         storyView.passAllStories(mockUsers)
-        storyView.setPageTransformer(StoriesPageTransformerType.Cube)
         storyView.setEventListener(object : StoryView.EventListener {
 
             override fun onDisplayingStory(marmozet: Marmozet) {

@@ -1,13 +1,16 @@
 package com.noosle.stories_marmozets.views
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
@@ -90,6 +93,7 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
         progressBar.progress = 0
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setStoryTouchEvents() {
         val clickListener = DoubleClick(object : DoubleClickListener {
 
@@ -136,6 +140,40 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
             close.setOnClickListener {
                 stopHandlers()
                 storyListener.onStoriesClose()
+            }
+            midTouchLayout.setOnTouchListener { v, event ->
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        if (::runnable.isInitialized) handler.removeCallbacks(runnable)
+                        if (exoPlayer.isPlaying) exoPlayer.playWhenReady = false
+                        return@setOnTouchListener true
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        val view =
+                            binding.progressLayout.getChildAt(currentStoryPosition) ?: return@setOnTouchListener true
+                        if (::runnable.isInitialized) handler.removeCallbacks(runnable)
+                        val progressBar = view as ProgressBar
+                        var progressStatus = progressBar.progress
+                        if (!exoPlayer.isPlaying) {
+                            exoPlayer.playWhenReady = true
+                        }
+                        runnable = runnable {
+                            progressBar.progress = progressStatus
+                            if (progressStatus < progressBar.max) {
+                                progressStatus += 20
+                                handler.postDelayed(this, 20)
+                            } else {
+                                currentStoryPosition++
+                                launch()
+                            }
+                        }.also {
+                            handler.postDelayed(it, 20)
+                        }
+                        return@setOnTouchListener true
+                    }
+                }
+
+                v?.onTouchEvent(event) ?: true
             }
         }
     }
