@@ -5,7 +5,6 @@
 ![](marmozets_gif.gif)
 
 ## Setup
-
 - Add it in your root build.gradle at the end of repositories:
 ```
 allprojects {
@@ -35,6 +34,12 @@ dependencies {
     <!-- story_progress_color attribute is not important. Default value is white -->
 ```
 
+## Navigation
+* Single tap on left side of screen - run story from start
+* Single tap on right side of screen - show next story/next user stories
+* Double tap on left side of screen - show previous story
+* Press and hold on the middle of screen - pause story
+
 ## Example of usage
 ```
 class MainActivity : FragmentActivity() {
@@ -57,6 +62,10 @@ class MainActivity : FragmentActivity() {
             override fun onCurrentUserStories(marmozets: List<Marmozet>) {
                 super.onCurrentUserStories(marmozets)
             }
+            
+             override fun onCloseButtonPressed() {
+                finish()
+            }
 
             override fun onFinish() {
                 finish()
@@ -66,4 +75,17 @@ class MainActivity : FragmentActivity() {
 }
 ```
 
+## Page transformer
+Use ```storyView.setPageTransformer(storiesPageTransformerType)``` to change default animation between pages 
+
+Available animations:
+
+1) ```StoriesPageTransformerType.Cube```
+![](marmozets_cube_gif.gif)
+2) ```StoriesPageTransformerType.ZoomOut```
+![](marmozets_zoomout_gif.gif)
+3) ```StoriesPageTransformerType.Depth```
+![](marmozets_depth_gif.gif)
+   
+## Customize your stories
 See type of story object [here](https://github.com/noosle/marmozets/blob/master/app/src/main/java/com/noosle/marmozets/Mock.kt)
