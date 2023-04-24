@@ -79,6 +79,7 @@ class MainActivity : FragmentActivity() {
 Use ```storyView.setPageTransformer(storiesPageTransformerType)``` to change default animation between pages 
 
 Available animations:
+
 ```StoriesPageTransformerType.Cube```
 ![](marmozets_cube_gif.gif)
 
