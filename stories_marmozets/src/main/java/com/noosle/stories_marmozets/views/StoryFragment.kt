@@ -154,7 +154,7 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
             }
             val params = LinearLayout.LayoutParams(
                 0,
-                50, 1f
+                5, 1f
             )
             params.setMargins(5, 0, 5, 0)
             pb.layoutParams = params
@@ -246,8 +246,9 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
 
     private fun runStoryProgress() {
         var progressStatus = 0
+        if (::runnable.isInitialized) handler.removeCallbacks(runnable)
         val view = binding.progressLayout.getChildAt(currentStoryPosition) ?: return
-        val progressBar = view as ProgressBar
+        val progressBar =  view as ProgressBar
         runnable = runnable {
             progressBar.progress = progressStatus
             if (progressStatus < progressBar.max) {
