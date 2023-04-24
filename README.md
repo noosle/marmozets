@@ -79,12 +79,13 @@ class MainActivity : FragmentActivity() {
 Use ```storyView.setPageTransformer(storiesPageTransformerType)``` to change default animation between pages 
 
 Available animations:
-
-1) ```StoriesPageTransformerType.Cube```
+```StoriesPageTransformerType.Cube```
 ![](marmozets_cube_gif.gif)
-2) ```StoriesPageTransformerType.ZoomOut```
+
+```StoriesPageTransformerType.ZoomOut```
 ![](marmozets_zoomout_gif.gif)
-3) ```StoriesPageTransformerType.Depth```
+
+```StoriesPageTransformerType.Depth```
 ![](marmozets_depth_gif.gif)
    
 ## Customize your stories
