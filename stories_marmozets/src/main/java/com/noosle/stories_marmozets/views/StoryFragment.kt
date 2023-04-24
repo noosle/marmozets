@@ -83,14 +83,18 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
         binding.rootLayout.setBackgroundColor(backgroundColor)
     }
 
+    private fun setStoryToStart() {
+        val pbView = binding.progressLayout.getChildAt(currentStoryPosition) ?: return
+        val progressBar = pbView as ProgressBar
+        handler.removeCallbacks(runnable)
+        progressBar.progress = 0
+    }
+
     private fun setStoryTouchEvents() {
         val clickListener = DoubleClick(object : DoubleClickListener {
 
             override fun onSingleClickEvent(view: View?) {
-                val pbView = binding.progressLayout.getChildAt(currentStoryPosition) ?: return
-                val progressBar = pbView as ProgressBar
-                handler.removeCallbacks(runnable)
-                progressBar.progress = 0
+                setStoryToStart()
                 when (stories.marmozets[currentStoryPosition].type) {
                     "image" -> {
                         runStoryProgress()
@@ -102,10 +106,7 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
             }
 
             override fun onDoubleClickEvent(view: View?) {
-                val pbView = binding.progressLayout.getChildAt(currentStoryPosition) ?: return
-                val progressBar = pbView as ProgressBar
-                handler.removeCallbacks(runnable)
-                progressBar.progress = 0
+                setStoryToStart()
                 if (currentStoryPosition != 0) {
                     currentStoryPosition--
                     launch()
@@ -131,6 +132,10 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
                 progressBar.progress = progressBar.max
                 currentStoryPosition++
                 launch()
+            }
+            close.setOnClickListener {
+                stopHandlers()
+                storyListener.onStoriesClose()
             }
         }
     }
@@ -248,7 +253,7 @@ class StoryFragment : Fragment(R.layout.fragment_story) {
         var progressStatus = 0
         if (::runnable.isInitialized) handler.removeCallbacks(runnable)
         val view = binding.progressLayout.getChildAt(currentStoryPosition) ?: return
-        val progressBar =  view as ProgressBar
+        val progressBar = view as ProgressBar
         runnable = runnable {
             progressBar.progress = progressStatus
             if (progressStatus < progressBar.max) {

@@ -3,6 +3,7 @@ package com.noosle.marmozets
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.noosle.stories_marmozets.objects.Marmozet
+import com.noosle.stories_marmozets.objects.page_transformer.StoriesPageTransformerType
 import com.noosle.stories_marmozets.views.StoryView
 
 class MainActivity : FragmentActivity() {
@@ -12,6 +13,7 @@ class MainActivity : FragmentActivity() {
 
         val storyView = findViewById<StoryView>(R.id.story_view)
         storyView.passAllStories(mockUsers)
+        storyView.setPageTransformer(StoriesPageTransformerType.Cube)
         storyView.setEventListener(object : StoryView.EventListener {
 
             override fun onDisplayingStory(marmozet: Marmozet) {
@@ -24,6 +26,10 @@ class MainActivity : FragmentActivity() {
 
             override fun onCurrentUserStories(marmozets: List<Marmozet>) {
                 super.onCurrentUserStories(marmozets)
+            }
+
+            override fun onCloseButtonPressed() {
+                finish()
             }
 
             override fun onFinish() {

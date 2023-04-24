@@ -13,6 +13,8 @@ import com.noosle.stories_marmozets.R
 import com.noosle.stories_marmozets.objects.Marmozet
 import com.noosle.stories_marmozets.objects.StoryListener
 import com.noosle.stories_marmozets.objects.UserStories
+import com.noosle.stories_marmozets.objects.page_transformer.StoriesPageTransformerFactory
+import com.noosle.stories_marmozets.objects.page_transformer.StoriesPageTransformerType
 
 @SuppressLint("ResourceType")
 class StoryView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), StoryListener {
@@ -45,6 +47,10 @@ class StoryView(context: Context, attrs: AttributeSet) : LinearLayout(context, a
         }
     }
 
+    fun setPageTransformer(type: StoriesPageTransformerType) {
+        mPager.setPageTransformer(StoriesPageTransformerFactory(type).getPageTransformer())
+    }
+
     fun passAllStories(allStories: List<UserStories>) {
         numPages = allStories.size
         this.allStories = allStories
@@ -70,6 +76,7 @@ class StoryView(context: Context, attrs: AttributeSet) : LinearLayout(context, a
 
     interface EventListener {
         fun onFinish() {}
+        fun onCloseButtonPressed() {}
         fun onDisplayingStory(marmozet: Marmozet) {}
         fun onCurrentUserStories(marmozets: List<Marmozet>) {}
         fun onCurrentData(data: Any?) {}
@@ -85,10 +92,15 @@ class StoryView(context: Context, attrs: AttributeSet) : LinearLayout(context, a
             return
         }
         mPager.setCurrentItem(mPager.currentItem + 1, true)
+        mPager.post { mPager.requestTransform() }
     }
 
     override fun onCurrentStory(marmozet: Marmozet) {
         if (::eventListener.isInitialized)
             eventListener.onDisplayingStory(marmozet)
+    }
+
+    override fun onStoriesClose() {
+        if (::eventListener.isInitialized) eventListener.onCloseButtonPressed()
     }
 }
